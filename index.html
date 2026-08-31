@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DSSU Parkerpuram</title>
+    <title>Sundayschool</title>
     <style>
         :root {
             --navy: #2c3e50;
@@ -332,6 +332,149 @@
             fill: currentColor
         }
 
+
+        /* ---- Mobile optimization: designed for 400px-wide screens ---- */
+        @media (max-width: 599px) {
+            body {
+                padding: 6px;
+                font-size: 13px;
+                max-width: none;
+            }
+
+            h1 {
+                font-size: 1rem;
+                margin: 0 0 6px;
+                line-height: 1.25;
+            }
+
+            #tab-bar {
+                gap: 4px;
+                margin-bottom: 6px;
+            }
+
+            .tab-btn {
+                flex: 1 1 0;
+                min-width: 0;
+                padding: 7px 3px;
+                font-size: 12px;
+                line-height: 1.2;
+                white-space: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #print-btn {
+                width: 32px;
+                height: 32px;
+                margin-bottom: 6px;
+            }
+
+            #print-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            /* Never create horizontal scrolling on mobile. */
+            .table-wrap,
+            #csv-container .table-wrap,
+            #points-table-section .table-wrap {
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            table,
+            #csv-container table,
+            #points-table-section table {
+                width: 100%;
+                max-width: 100%;
+                table-layout: fixed;
+                font-size: 11px;
+            }
+
+            th,
+            td,
+            #csv-container th,
+            #csv-container td,
+            #points-table-section th,
+            #points-table-section td {
+                padding: 4px 3px;
+                line-height: 1.2;
+                white-space: normal;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .accordion-item > .accordion-heading {
+                padding: 7px 8px;
+                font-size: 13px;
+                line-height: 1.2;
+            }
+
+            .accordion-item.level-0 > .accordion-heading {
+                font-size: 14px;
+            }
+
+            .accordion-item.level-1 > .accordion-heading {
+                font-size: 13px;
+            }
+
+            .accordion-item.level-2 > .accordion-heading {
+                font-size: 12px;
+            }
+
+            .home-program-list {
+                gap: 6px;
+            }
+
+            .home-program-card {
+                border-left-width: 3px;
+            }
+
+            .home-program-stage {
+                padding: 7px 9px;
+                font-size: 13px;
+                line-height: 1.2;
+            }
+
+            .home-program-body {
+                padding: 8px 9px;
+                gap: 5px;
+            }
+
+            .home-program-row {
+                gap: 6px;
+            }
+
+            .home-program-value {
+                font-size: 18px;
+                line-height: 1.2;
+            }
+
+            .home-program-label {
+                font-size: 10px;
+                line-height: 1.2;
+            }
+
+            .home-program-upcoming .home-program-value {
+                font-size: 13px;
+            }
+
+            .home-program-time {
+                font-size: 11px;
+            }
+
+            #points-table-section {
+                margin-top: 0;
+                padding: 6px;
+            }
+
+            #points-table-section h2 {
+                font-size: 13px;
+                margin: 0 0 6px;
+            }
+        }
+
         @media print {
 
             #print-btn,
@@ -363,7 +506,7 @@
 </head>
 
 <body>
-    <h1>Balaramapuram Area Sundayschool - 2026</h1>
+    <h1>Balaramapuram Area Sundayschool 2026</h1>
     <button id="print-btn" type="button" aria-label="Print / Save as PDF" title="Print / Save as PDF">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
@@ -381,22 +524,22 @@
         const CSV_SOURCES = [
             { label: "Stages", source: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTxFMPKiHFDwU4YT0MGXvQ-vq9_-VeIbpkyNd65ZKLhPSS2IhzmIlcPOYyk6MxYF0bk8sn8kq_3bpEQ/pub?gid=1010871530&single=true&output=csv", layout: "home" },
             { label: "Result", source: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTxFMPKiHFDwU4YT0MGXvQ-vq9_-VeIbpkyNd65ZKLhPSS2IhzmIlcPOYyk6MxYF0bk8sn8kq_3bpEQ/pub?gid=0&single=true&output=csv" },
-            { label: "Points Table", pointsTab: true }										  
+            { label: "Points Table", pointsTab: true }
         ];
 
         // ---- Configure the Home program list columns here ----
         const HOME_STAGE_COLUMN = "Stage";
         const HOME_CURRENT_COLUMN = "Current Item";
-        const HOME_CURRENT_LABEL = "Current Item";																	 
-       // Configure multiple upcoming items shown in the Stages tab.
+        const HOME_CURRENT_LABEL = "Current Item";
+        // Configure multiple upcoming items shown in the Stages tab.
         const HOME_NEXT_ITEMS = [
             { column: "Next Item 1", label: "Next Item 1" },
             { column: "Next Item 2", label: "Next Item 2" },
             { column: "Next Item 3", label: "Next Item 3" },
             { column: "Next Item 4", label: "Next Item 4" },
             { column: "Next Item 5", label: "Next Item 5" }
-        ];												   
-														  
+        ];
+ 
         const HOME_TIME_COLUMN = "Time";
 
         // ---- Configure merged/grouping columns here ----
@@ -411,15 +554,24 @@
         const COLUMN_ORDER = ["Prize"];
         const HIDDEN_HEADER_COLUMNS = ["Prize"];
 
+        // ---- Configure Result tab column widths here ----
+        // Widths can be percentages (e.g. "12%") or fixed values (e.g. "100px").
+        // Only columns listed here are explicitly sized; the remaining columns
+        // share the available width.
+        const RESULT_COLUMN_WIDTHS = {           
+            Prize: "12%",
+            Number: "15%"
+        };
+
         // ---- Configure per-column value transforms here ----
         const COLUMN_VALUE_TRANSFORMS = {
             Prize: {
-                First: "🥇 1",
-                Second: "🥈 2",
-                Third: "🥉 3",
-                1: "🥇 1",
-                2: "🥈 2",
-                3: "🥉 3"
+                First: "🥇 1<sup>st</sup>",
+                Second: "🥈 2<sup>nd</sup>",
+                Third: "🥉 3<sup>rd</sup>",
+                1: "🥇 1<sup>st</sup>",
+                2: "🥈 2<sup>nd</sup>",
+                3: "🥉 3<sup>rd</sup>"
             }
         };
 
@@ -491,7 +643,7 @@
             return [...priority, ...rest];
         }
 
-        function buildTable(headerLabels, bodyRows) {
+        function buildTable(headerLabels, bodyRows, columnWidths = null) {
             const wrap = document.createElement("div");
             wrap.className = "table-wrap";
             const table = document.createElement("table");
@@ -501,6 +653,12 @@
             headerLabels.forEach(label => {
                 const th = document.createElement("th");
                 th.textContent = label;
+                if (columnWidths) {
+                    const width = Array.isArray(columnWidths)
+                        ? columnWidths[headerLabels.indexOf(label)]
+                        : columnWidths[label];
+                    if (width) th.style.width = width;
+                }
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
@@ -509,9 +667,13 @@
             const tbody = document.createElement("tbody");
             bodyRows.forEach(row => {
                 const tr = document.createElement("tr");
-                row.forEach(value => {
+                row.forEach((value, i) => {
                     const td = document.createElement("td");
-                    td.textContent = value;
+                    if (headerLabels[i] === "Prize" && /<sup>/i.test(value)) {
+                        td.innerHTML = value;
+                    } else {
+                        td.innerHTML = value;
+                    }
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
@@ -536,7 +698,8 @@
                 const value = row[idx] !== undefined ? row[idx] : "";
                 return transformColumnValue(headers[idx], value);
             }));
-            return buildTable(headerLabels, bodyRows);
+            const widthArray = orderedIndexes.map(idx => RESULT_COLUMN_WIDTHS[headers[idx]] || null);
+            return buildTable(headerLabels, bodyRows, widthArray);
         }
 
         function buildAccordionNode(headers, leafColumnIndexes, node) {
@@ -572,13 +735,13 @@
             const dataRows = rows.slice(1);
             const stageIdx = headers.indexOf(HOME_STAGE_COLUMN);
             const currentIdx = headers.indexOf(HOME_CURRENT_COLUMN);
-			const nextIndexes = HOME_NEXT_ITEMS.map(item => ({
+            const nextIndexes = HOME_NEXT_ITEMS.map(item => ({
                 ...item,
                 index: headers.indexOf(item.column)
             })).filter(item => item.index !== -1);
 
-									 
-														   
+ 
+  
             const timeIdx = headers.indexOf(HOME_TIME_COLUMN);
 
             const list = document.createElement("div");
@@ -587,11 +750,11 @@
             dataRows.forEach(row => {
                 const stage = (row[stageIdx] || "").trim();
                 const current = (row[currentIdx] || "").trim();
-													 
+  
                 const nextItems = nextIndexes
                     .map(item => ({ label: item.label, value: (row[item.index] || "").trim() }))
                     .filter(item => item.value);
-											
+  
                 const time = (row[timeIdx] || "").trim();
                 if (!stage) return;
 
@@ -674,7 +837,7 @@
             const totals = computePointsTotals(headers, filledRows);
 
             if (!totals || totals.length === 0) {
-                container.textContent = "No data.";
+                container.textContent = "No points data available.";
                 return;
             }
 
