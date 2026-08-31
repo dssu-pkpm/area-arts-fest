@@ -523,7 +523,7 @@
         // ---- Configure the CSV sources here ----
         const CSV_SOURCES = [
             { label: "Stages", source: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTxFMPKiHFDwU4YT0MGXvQ-vq9_-VeIbpkyNd65ZKLhPSS2IhzmIlcPOYyk6MxYF0bk8sn8kq_3bpEQ/pub?gid=1010871530&single=true&output=csv", layout: "home" },
-            { label: "Result", source: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTxFMPKiHFDwU4YT0MGXvQ-vq9_-VeIbpkyNd65ZKLhPSS2IhzmIlcPOYyk6MxYF0bk8sn8kq_3bpEQ/pub?gid=0&single=true&output=csv" },
+            { label: "Result", source: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTxFMPKiHFDwU4YT0MGXvQ-vq9_-VeIbpkyNd65ZKLhPSS2IhzmIlcPOYyk6MxYF0bk8sn8kq_3bpEQ/pub?gid=0&single=true&output=csv", showPointsTable: false },
             { label: "Points Table", pointsTab: true }
         ];
 
@@ -554,13 +554,17 @@
         const COLUMN_ORDER = ["Prize"];
         const HIDDEN_HEADER_COLUMNS = ["Prize"];
 
-        // ---- Configure Result tab column widths here ----
+        // ---- Configure Result & Points tab column widths here ----
         // Widths can be percentages (e.g. "12%") or fixed values (e.g. "100px").
         // Only columns listed here are explicitly sized; the remaining columns
         // share the available width.
         const RESULT_COLUMN_WIDTHS = {           
             Prize: "12%",
-            Number: "15%"
+            Number: "15%",
+            First:"16%",
+            Second:"16%",
+            Third:"16%",
+            Points:"20%",
         };
 
         // ---- Configure per-column value transforms here ----
@@ -857,7 +861,7 @@
                 entry.points
             ]);
 
-            section.appendChild(buildTable(headerLabels, bodyRows));
+            section.appendChild(buildTable(headerLabels, bodyRows, RESULT_COLUMN_WIDTHS));
             container.appendChild(section);
         }
 
@@ -906,7 +910,7 @@
             const bodyRows = totals.map(entry => [
                 entry.group, ...prizeNames.map(name => entry.counts[name]), entry.points
             ]);
-            section.appendChild(buildTable(headerLabels, bodyRows));
+            section.appendChild(buildTable(headerLabels, bodyRows, RESULT_COLUMN_WIDTHS));
         }
 
 
