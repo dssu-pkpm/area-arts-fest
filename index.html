@@ -261,14 +261,14 @@
             border-bottom: 3px solid var(--slate)
         }
 
-        #points-table-section tbody tr:first-child {
-            background: #eef6ff;
-            font-weight: bold
-        }
+													
+								
+							 
+		 
 
-        #points-table-section tbody tr:first-child td:last-child {
-            color: var(--navy)
-        }
+																  
+							  
+		 
 
         #tab-bar {
             display: flex;
@@ -555,9 +555,9 @@
         const HIDDEN_HEADER_COLUMNS = ["Prize"];
 
         // ---- Configure Result & Points tab column widths here ----
-        // Widths can be percentages (e.g. "12%") or fixed values (e.g. "100px").
-        // Only columns listed here are explicitly sized; the remaining columns
-        // share the available width.
+																				 
+																			   
+									 
         const RESULT_COLUMN_WIDTHS = {           
             Prize: "12%",
             Number: "15%",
@@ -669,15 +669,22 @@
             table.appendChild(thead);
 
             const tbody = document.createElement("tbody");
-            bodyRows.forEach(row => {
+            bodyRows.forEach(rowData => {
                 const tr = document.createElement("tr");
-                row.forEach((value, i) => {
+                const cells = Array.isArray(rowData) ? rowData : rowData.cells;
+                
+                if (!Array.isArray(rowData) && rowData.bg) {
+                    tr.style.backgroundColor = rowData.bg;
+                    tr.style.fontWeight = "bold";
+                }
+
+                cells.forEach((value, i) => {
                     const td = document.createElement("td");
-                    if (headerLabels[i] === "Prize" && /<sup>/i.test(value)) {
-                        td.innerHTML = value;
-                    } else {
-                        td.innerHTML = value;
-                    }
+																			  
+											 
+							
+                    td.innerHTML = value;
+					 
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
@@ -828,6 +835,13 @@
             }
         }
 
+        function getRankBgColor(rank) {
+            if (rank === 1) return "#fff3cd"; // Gold
+            if (rank === 2) return "#b3cde5"; // Silver
+            if (rank === 3) return "#f8d7da"; // Bronze
+            return null;
+        }
+
         function renderPointsTab(rows) {
             const container = document.getElementById("csv-container");
             container.innerHTML = "";
@@ -855,11 +869,14 @@
 
             const prizeNames = Object.keys(PRIZE_POINTS);
             const headerLabels = [POINTS_GROUP_COLUMN, ...prizeNames, "Points"];
-            const bodyRows = totals.map(entry => [
-                entry.group,
-                ...prizeNames.map(name => entry.counts[name]),
-                entry.points
-            ]);
+            const bodyRows = totals.map(entry => ({
+                cells: [
+                    entry.group,
+                    ...prizeNames.map(name => entry.counts[name]),
+                    entry.points
+                ],
+                bg: getRankBgColor(entry.rank)
+            }));
 
             section.appendChild(buildTable(headerLabels, bodyRows, RESULT_COLUMN_WIDTHS));
             container.appendChild(section);
@@ -889,10 +906,19 @@
                 if (matchedName) totals.get(groupKey).counts[matchedName]++;
             });
 
-            return Array.from(totals.values()).map(({ label, counts }) => {
+            const calculated = Array.from(totals.values()).map(({ label, counts }) => {
                 const points = prizeNames.reduce((sum, name) => sum + counts[name] * PRIZE_POINTS[name], 0);
                 return { group: label, counts, points };
-            }).sort((a, b) => b.points - a.points);
+            });
+
+            // Assign rank based on highest points
+            const sortedByPoints = [...calculated].sort((a, b) => b.points - a.points);
+            sortedByPoints.forEach((item, index) => {
+                item.rank = index + 1;
+            });
+
+            // Return sorted ascending by Group/District name
+            return calculated.sort((a, b) => a.group.localeCompare(b.group, undefined, { sensitivity: 'base', numeric: true }));
         }
 
         function renderPointsTable(headers, dataRows) {
@@ -907,9 +933,14 @@
             section.appendChild(heading);
 
             const headerLabels = [POINTS_GROUP_COLUMN, ...prizeNames, "Points"];
-            const bodyRows = totals.map(entry => [
-                entry.group, ...prizeNames.map(name => entry.counts[name]), entry.points
-            ]);
+            const bodyRows = totals.map(entry => ({
+                cells: [
+                    entry.group,
+                    ...prizeNames.map(name => entry.counts[name]),
+                    entry.points
+                ],
+                bg: getRankBgColor(entry.rank)
+            }));
             section.appendChild(buildTable(headerLabels, bodyRows, RESULT_COLUMN_WIDTHS));
         }
 
